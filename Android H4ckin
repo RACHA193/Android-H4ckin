@@ -51,3 +51,27 @@ open the apk app on the phone to recieve the interactive shell
 
 
 
+--Decompile and Recompiling an apk--
+
+Install apktool (https://ibotpeaches.github.io/Apktool/install/)
+Download an apk from (https://m.apkpure.com/) 
+Open terminal at which the apk is downloaded
+> apktool d fb.apk (to decompile)
+> ls
+> cd fb
+> nano AndroidManifest.xml (can make changes to manifest file here)
+> apktool b fb (to recompile)
+Find the generated apk, it is unsigned
+> cd /root/Desktop/fb/dist/
+Generate keystore to sign the apk
+> keytool -genkey -V -keystore test.keystore -alias test -keyalg RSA -keysize 2048 -validity 1000
+Secure password and fill the necessary details
+Sign apk with the keystore
+> jarsigner -verbose -sigalg SHA1withRSA -digestalg ShA1 -keystore test.keystore fb.apk test
+Zipalign apk
+> zipalign -v 4 fb.apk fbSigned.apk
+> rm -rf fb.apk test.keystore
+
+
+
+
